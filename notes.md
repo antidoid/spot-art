@@ -10,9 +10,19 @@
    - Popularity
    - Genre
    - Image
+   - ProfileUrl
 
 2. Artist's Top Tracks
    - Fetch Artist's top 3 tracks
+   - Track:
+     -- id
+     -- name
+     -- preview url
+     -- external playable url
+     -- duration
+     -- album-images (640, 300, 64)
+     -- album-name
+     -- album-release date
 
 ## How to fetch it?
 
