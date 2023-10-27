@@ -1,9 +1,10 @@
-import Particles from "./components/Particles";
+import { Particles, Card } from "./components";
 
 export default function App() {
   return (
-    <div className="h-screen bg-product-background bg-[#696969] bg-blend-multiply bg-bottom bg-cover flex items-center justify-center">
+    <main className="h-screen bg-product-background bg-bottom bg-cover bg-[#696969] bg-blend-multiply flex items-center justify-center">
       <Particles />
-    </div>
+      <Card />
+    </main>
   );
 }
