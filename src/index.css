@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .btn-hover {
+    background: linear-gradient(
+      266deg,
+      #828282 1.23%,
+      #fff 47.42%,
+      #898989 97.63%
+    );
+  }
+}
