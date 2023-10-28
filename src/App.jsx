@@ -56,7 +56,22 @@ export default function App() {
     });
     const { tracks } = await topTracksRes.json();
 
-    console.log(tracks.filter((track) => track.preview_url).slice(0, 3));
+    const topThreeTracks = tracks
+      .filter((track) => track.preview_url)
+      .slice(0, 3);
+
+    if (topThreeTracks.length < 3) {
+      // Add as many unique tracks from the 'tracks' array as needed
+      // to make the 'playableTracks' array have a total length of 3.
+      while (topThreeTracks.length < 3) {
+        const nextTrack = tracks.find(
+          (track) => !topThreeTracks.includes(track),
+        );
+
+        if (!nextTrack) break;
+        topThreeTracks.push(nextTrack);
+      }
+    }
   };
 
   return (
