@@ -11,7 +11,7 @@ export default function Form() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="h-16 w-[95%] sm:max-w-2xl backdrop-blur-md bg-white/20 rounded-3xl flex items-center"
+      className="h-16 w-full backdrop-blur-md bg-white/20 rounded-3xl flex items-center"
     >
       <input
         type="text"
