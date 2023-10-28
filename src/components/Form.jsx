@@ -1,13 +1,4 @@
-import { useState } from "react";
-
-export default function Form() {
-  const [name, setName] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(name);
-  };
-
+export default function Form({ name, setName, handleSubmit }) {
   return (
     <form
       onSubmit={handleSubmit}
