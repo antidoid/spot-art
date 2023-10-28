@@ -5,7 +5,7 @@ export default function App() {
     <main className="h-screen bg-product-background bg-bottom bg-cover bg-[#696969] bg-blend-multiply flex flex-col items-center justify-center">
       <Particles />
       <Form />
-      <Card />
+      <Card>Welcome to SpotArt</Card>
     </main>
   );
 }
