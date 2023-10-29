@@ -2,11 +2,15 @@ import { useState } from "react";
 
 import { Card, Form } from "./components";
 import smile from "./assets/smile.svg";
+import { getArtist, getArtistId, getArtistTopTracks } from "./utils/spotify";
 
 export default function App() {
   const [name, setName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [artist, setArtist] = useState(null);
 
   const fetchArtist = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     // Fetch the auth token
     const authRes = await fetch("https://accounts.spotify.com/api/token", {
@@ -14,64 +18,22 @@ export default function App() {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: `grant_type=client_credentials&client_id=${
-        import.meta.env.VITE_CLIENT_ID
-      }&client_secret=${import.meta.env.VITE_CLIENT_SECRET}`,
+      body: `grant_type=client_credentials&client_id=${import.meta.env.VITE_CLIENT_ID
+        }&client_secret=${import.meta.env.VITE_CLIENT_SECRET}`,
     });
     const { access_token: token } = await authRes.json();
 
     // Fetch the artist id
-    const searchQueryParam = name.split(" ").join("+");
-    const searchURL = `https://api.spotify.com/v1/search?q=${searchQueryParam}&type=artist&limit=1`;
-    const artistIdRes = await fetch(searchURL, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const { artists } = await artistIdRes.json();
-    const id = artists.items[0].id;
+    const artistId = await getArtistId(name, token);
 
     // Fetch the artist's metadata
-    const artistURL = `https://api.spotify.com/v1/artists/${id}`;
-    const artistRes = await fetch(artistURL, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const {
-      name: artistName,
-      followers: { total: followersCount },
-      genres,
-      popularity,
-      images,
-      external_urls: { spotify: profileURL },
-    } = await artistRes.json();
+    const artist = await getArtist(artistId, token);
 
     // Fetch artist's top tracks
-    const topTracksURL = `https://api.spotify.com/v1/artists/${id}/top-tracks?market=US`;
-    const topTracksRes = await fetch(topTracksURL, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const { tracks } = await topTracksRes.json();
+    artist.topThreeTracks = await getArtistTopTracks(artistId, token);
 
-    const topThreeTracks = tracks
-      .filter((track) => track.preview_url)
-      .slice(0, 3);
-
-    if (topThreeTracks.length < 3) {
-      // Add as many unique tracks from the 'tracks' array as needed
-      // to make the 'playableTracks' array have a total length of 3.
-      while (topThreeTracks.length < 3) {
-        const nextTrack = tracks.find(
-          (track) => !topThreeTracks.includes(track),
-        );
-
-        if (!nextTrack) break;
-        topThreeTracks.push(nextTrack);
-      }
-    }
+    setArtist(artist);
+    setIsLoading(false);
   };
 
   return (
@@ -80,10 +42,27 @@ export default function App() {
         <h1 className="font-mono text-white text-3xl ml-4 mb-4">SpotArt</h1>
         <Form name={name} setName={setName} handleSubmit={fetchArtist} />
         <Card>
-          <h2 className="text-white text-3xl sm:text-5xl">
-            Welcome to SpotArt
-          </h2>
-          <img src={smile} className="w-[250px] mt-10" />
+          {isLoading ? (
+            <div>Loading..</div>
+          ) : (
+            <>
+              {artist ? (
+                <div>
+                  <div>{artist.name}</div>
+                  <div>{artist.genre}</div>
+                  <div>{artist.topThreeTracks[0].name}</div>
+                  <div>{artist.topThreeTracks[0].releaseYear}</div>
+                </div>
+              ) : (
+                <>
+                  <h2 className="text-white text-3xl sm:text-5xl">
+                    Welcome to SpotArt
+                  </h2>
+                  <img src={smile} className="w-[250px] mt-10" />
+                </>
+              )}
+            </>
+          )}
         </Card>
       </main>
     </div>
