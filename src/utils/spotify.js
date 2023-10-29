@@ -6,8 +6,9 @@ export async function fetchAuthToken() {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: `grant_type=client_credentials&client_id=${import.meta.env.VITE_CLIENT_ID
-      }&client_secret=${import.meta.env.VITE_CLIENT_SECRET}`,
+    body: `grant_type=client_credentials&client_id=${
+      import.meta.env.VITE_CLIENT_ID
+    }&client_secret=${import.meta.env.VITE_CLIENT_SECRET}`,
   });
   const { access_token: token } = await authRes.json();
   Cookies.set("token", token, { expires: 1 / 24, sameSite: "strict" });
@@ -74,16 +75,15 @@ export async function getArtistTopTracks(id, token) {
     .filter((track) => track.preview_url)
     .slice(0, 3);
 
-  if (topThreeTracks.length < 3) {
-    // Add as many unique tracks from the 'tracks' array as needed
-    // to make the 'playableTracks' array have a total length of 3.
-    while (topThreeTracks.length < 3) {
-      const nextTrack = tracks.find((track) => !topThreeTracks.includes(track));
+  // Add as many unique tracks from the 'tracks' array as needed
+  // to make the 'playableTracks' array have a total length of 3.
+  while (topThreeTracks.length < 3) {
+    const nextTrack = tracks.find((track) => !topThreeTracks.includes(track));
 
-      if (!nextTrack) break;
-      topThreeTracks.push(nextTrack);
-    }
+    if (!nextTrack) break;
+    topThreeTracks.push(nextTrack);
   }
+
   return topThreeTracks.map((track) => ({
     id: track.id,
     name: track.name,
