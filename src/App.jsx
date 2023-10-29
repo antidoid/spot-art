@@ -16,8 +16,8 @@ export default function App() {
   const [artist, setArtist] = useState(null);
 
   const fetchArtist = async (e) => {
-    setIsLoading(true);
     e.preventDefault();
+    setIsLoading(true);
 
     // Fetch the auth token
     const token = Cookies.get("token") || (await fetchAuthToken());

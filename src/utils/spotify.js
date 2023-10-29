@@ -10,7 +10,7 @@ export async function fetchAuthToken() {
       }&client_secret=${import.meta.env.VITE_CLIENT_SECRET}`,
   });
   const { access_token: token } = await authRes.json();
-  Cookies.set("token", token, { expires: 1 / 24 });
+  Cookies.set("token", token, { expires: 1 / 24, sameSite: "strict" });
   return token;
 }
 
