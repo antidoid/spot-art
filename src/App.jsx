@@ -2,7 +2,13 @@ import { useState } from "react";
 
 import { Card, Form } from "./components";
 import smile from "./assets/smile.svg";
-import { getArtist, getArtistId, getArtistTopTracks } from "./utils/spotify";
+import {
+  fetchAuthToken,
+  getArtist,
+  getArtistId,
+  getArtistTopTracks,
+} from "./utils/spotify";
+import Cookies from "js-cookie";
 
 export default function App() {
   const [name, setName] = useState("");
@@ -12,16 +18,9 @@ export default function App() {
   const fetchArtist = async (e) => {
     setIsLoading(true);
     e.preventDefault();
+
     // Fetch the auth token
-    const authRes = await fetch("https://accounts.spotify.com/api/token", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `grant_type=client_credentials&client_id=${import.meta.env.VITE_CLIENT_ID
-        }&client_secret=${import.meta.env.VITE_CLIENT_SECRET}`,
-    });
-    const { access_token: token } = await authRes.json();
+    const token = Cookies.get("token") || (await fetchAuthToken());
 
     // Fetch the artist id
     const artistId = await getArtistId(name, token);
@@ -38,7 +37,7 @@ export default function App() {
 
   return (
     <div className="w-screen flex justify-center bg-product-background bg-bottom bg-cover bg-[#696969] bg-blend-multiply">
-      <main className="w-[95%] sm:max-w-2xl h-screen font-inter flex flex-col justify-center shadow-2xl">
+      <main className="w-[95%] sm:max-w-2xl min-h-screen font-inter flex flex-col justify-center shadow-2xl">
         <h1 className="font-mono text-white text-3xl ml-4 mb-4">SpotArt</h1>
         <Form name={name} setName={setName} handleSubmit={fetchArtist} />
         <Card>
