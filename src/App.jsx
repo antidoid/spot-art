@@ -1,21 +1,22 @@
 import { useState } from "react";
+import Cookies from "js-cookie";
 
-import { Card, Form } from "./components";
-import smile from "./assets/smile.svg";
+import { Card, Form, Welcome } from "./components";
 import {
   fetchAuthToken,
   getArtist,
   getArtistId,
   getArtistTopTracks,
 } from "./utils/spotify";
-import Cookies from "js-cookie";
 
 export default function App() {
   const [name, setName] = useState("");
   const [artist, setArtist] = useState(null);
+  const [showWelcome, setShowWelcome] = useState(true);
 
   const fetchArtist = async (e) => {
     e.preventDefault();
+    setShowWelcome(false);
 
     // Fetch the auth token
     const token = Cookies.get("token") || (await fetchAuthToken());
@@ -25,11 +26,15 @@ export default function App() {
 
     // Fetch the artist's metadata
     const artist = await getArtist(artistId, token);
+    setArtist(artist);
 
     // Fetch artist's top tracks
-    artist.topThreeTracks = await getArtistTopTracks(artistId, token);
+    const topThreeTracks = await getArtistTopTracks(artistId, token);
 
-    setArtist(artist);
+    setArtist((prevArtist) => ({
+      ...prevArtist,
+      topThreeTracks,
+    }));
   };
 
   return (
@@ -39,20 +44,13 @@ export default function App() {
         <Form name={name} setName={setName} handleSubmit={fetchArtist} />
         <Card>
           <>
-            {artist ? (
-              <div>
-                <div>{artist.name}</div>
-                <div>{artist.genre}</div>
-                <div>{artist.topThreeTracks[0].name}</div>
-                <div>{artist.topThreeTracks[0].releaseYear}</div>
-              </div>
+            {showWelcome ? (
+              <Welcome />
             ) : (
-              <>
-                <h2 className="text-white text-3xl sm:text-5xl">
-                  Welcome to SpotArt
-                </h2>
-                <img src={smile} className="w-[250px] mt-10" />
-              </>
+              <div>
+                <div>{artist?.name}</div>
+                <div>{artist?.genre}</div>
+              </div>
             )}
           </>
         </Card>
