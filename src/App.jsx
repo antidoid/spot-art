@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Cookies from "js-cookie";
 
-import { Card, Form, Welcome } from "./components";
+import { Card, Form, Tracks, Welcome } from "./components";
 import {
   fetchAuthToken,
   getArtist,
@@ -17,6 +17,7 @@ export default function App() {
   const fetchArtist = async (e) => {
     e.preventDefault();
     setShowWelcome(false);
+    setArtist(null);
 
     // Fetch the auth token
     const token = Cookies.get("token") || (await fetchAuthToken());
@@ -35,6 +36,7 @@ export default function App() {
       ...prevArtist,
       topThreeTracks,
     }));
+    console.log(artist);
   };
 
   return (
@@ -43,18 +45,37 @@ export default function App() {
         <h1 className="font-mono text-white text-3xl ml-4 mb-4">SpotArt</h1>
         <Form name={name} setName={setName} handleSubmit={fetchArtist} />
         <Card>
-          <>
-            {showWelcome ? (
-              <Welcome />
-            ) : (
-              <div>
-                <div>{artist?.name}</div>
-                <div>{artist?.genre}</div>
+          {showWelcome ? (
+            <Welcome />
+          ) : (
+            <div className="w-full flex flex-col p-4 sm:p-10 text-white font-inter">
+              <div className="flex items-center">
+                <img
+                  src={artist?.imageURL}
+                  className="rounded-full mr-4 sm:mr-12"
+                />
+                <div className="flex-1 mt-2 sm:mt-0 flex flex-col">
+                  <p className="text-3xl sm:text-5xl">{artist?.name}</p>
+                  {artist && (
+                    <div className="flex flex-col sm:flex-row gap-1 sm:gap-4 mt-4">
+                      <span>{artist?.followers} Followers</span>
+                      <span>{artist?.popularity}% Popularity</span>
+                      <span>{artist?.genre}</span>
+                    </div>
+                  )}
+                </div>
               </div>
-            )}
-          </>
+              <div className="mt-12">
+                <div className="text-4xl mb-4">
+                  {artist?.topThreeTracks && "TOP TRACKS"}
+                </div>
+                <Tracks tracks={artist?.topThreeTracks} />
+              </div>
+            </div>
+          )}
         </Card>
       </main>
     </div>
   );
 }
+// <div>{artist?.topThreeTracks?.[0].name}</div>

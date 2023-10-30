@@ -6,8 +6,9 @@ export async function fetchAuthToken() {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: `grant_type=client_credentials&client_id=${import.meta.env.VITE_CLIENT_ID
-      }&client_secret=${import.meta.env.VITE_CLIENT_SECRET}`,
+    body: `grant_type=client_credentials&client_id=${
+      import.meta.env.VITE_CLIENT_ID
+    }&client_secret=${import.meta.env.VITE_CLIENT_SECRET}`,
   });
   const { access_token: token } = await authRes.json();
   Cookies.set("token", token, { expires: 1 / 24, sameSite: "strict" });
@@ -34,6 +35,24 @@ function getReleaseYear(date, datePrecision) {
   }
 }
 
+function formatNumber(num, precision = 2) {
+  const map = [
+    { suffix: "T", threshold: 1e12 },
+    { suffix: "B", threshold: 1e9 },
+    { suffix: "M", threshold: 1e6 },
+    { suffix: "K", threshold: 1e3 },
+    { suffix: "", threshold: 1 },
+  ];
+
+  const found = map.find((x) => Math.abs(num) >= x.threshold);
+  if (found) {
+    const formatted = (num / found.threshold).toFixed(precision) + found.suffix;
+    return formatted;
+  }
+
+  return num;
+}
+
 export async function getArtist(id, token) {
   const artistURL = `https://api.spotify.com/v1/artists/${id}`;
   const artistRes = await fetch(artistURL, {
@@ -53,10 +72,10 @@ export async function getArtist(id, token) {
   return {
     id,
     name,
-    followers: total,
+    followers: formatNumber(total),
     genre: genres[0],
     popularity,
-    images,
+    imageURL: images[2].url,
     profileURL,
   };
 }
