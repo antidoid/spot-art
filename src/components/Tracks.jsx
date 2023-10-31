@@ -3,23 +3,23 @@ import { useState } from "react";
 import Track from "./Track";
 
 export default function Tracks({ tracks }) {
-  const [currentlyPlayingIndex, setCurrentlyPlayingIndex] = useState(null);
+  const [currentPlayingTrack, setSurrentPlayingTrack] = useState(null);
 
-  // Function to set the currently playing index
-  const handleAudioPlayback = (index) => {
-    if (index === currentlyPlayingIndex) {
-      setCurrentlyPlayingIndex(null); // Pause the currently playing audio
+  // Function to set the currently playing track
+  const handleAudioPlayback = (id) => {
+    if (id === currentPlayingTrack) {
+      setSurrentPlayingTrack(null); // Pause the currently playing audio
     } else {
-      setCurrentlyPlayingIndex(index); // Start the new audio
+      setSurrentPlayingTrack(id); // Start the new audio
     }
   };
 
-  return tracks?.map((track, index) => (
+  return tracks?.map((track) => (
     <Track
       key={track.id}
       track={track}
-      isPlaying={index === currentlyPlayingIndex}
-      onPlaybackChange={() => handleAudioPlayback(index)}
+      isPlaying={track.id === currentPlayingTrack}
+      onPlaybackChange={() => handleAudioPlayback(track.id)}
     />
   ));
 }
