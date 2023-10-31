@@ -36,6 +36,8 @@ export default function PlayPauseBtn({
       countdownAnimation.pause();
       audio.pause();
     }
+
+    return () => audio.load();
   }, [isPlaying]);
 
   return (
