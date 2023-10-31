@@ -41,7 +41,7 @@ export default function PlayPauseBtn({
   }, [isPlaying]);
 
   return (
-    <div className="relative w-12 mt-1" onClick={onPlaybackChange}>
+    <div className="relative w-12 my-auto" onClick={onPlaybackChange}>
       {btnAnimation.View}
       <div className="absolute top-0">{countdownAnimation.View}</div>
     </div>
