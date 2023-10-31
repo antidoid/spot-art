@@ -6,9 +6,8 @@ export async function fetchAuthToken() {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: `grant_type=client_credentials&client_id=${
-      import.meta.env.VITE_CLIENT_ID
-    }&client_secret=${import.meta.env.VITE_CLIENT_SECRET}`,
+    body: `grant_type=client_credentials&client_id=${import.meta.env.VITE_CLIENT_ID
+      }&client_secret=${import.meta.env.VITE_CLIENT_SECRET}`,
   });
   const { access_token: token } = await authRes.json();
   Cookies.set("token", token, { expires: 1 / 24, sameSite: "strict" });
@@ -72,9 +71,9 @@ export async function getArtist(id, token) {
   return {
     id,
     name,
-    followers: formatNumber(total),
+    followers: `${formatNumber(total)} Followers`,
     genre: genres[0],
-    popularity,
+    popularity: `${popularity}% Popularity`,
     imageURL: images[2].url,
     profileURL,
   };
@@ -106,11 +105,11 @@ export async function getArtistTopTracks(id, token) {
     id: track.id,
     name: track.name,
     albumName: track.album.name,
-    albumImages: track.album.images,
+    albumImageURL: track.album.images[2].url,
     releaseYear: getReleaseYear(
       track.album.release_date,
       track.album.release_date_precision,
     ),
-    previewURL: track.previewURL,
+    previewURL: track.preview_url,
   }));
 }

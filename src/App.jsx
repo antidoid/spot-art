@@ -36,7 +36,6 @@ export default function App() {
       ...prevArtist,
       topThreeTracks,
     }));
-    console.log(artist);
   };
 
   return (
@@ -48,27 +47,23 @@ export default function App() {
           {showWelcome ? (
             <Welcome />
           ) : (
-            <div className="w-full flex flex-col p-4 sm:p-10 text-white font-inter">
+            <div className="w-full h-full flex flex-col p-4 sm:p-10 text-white font-inter">
               <div className="flex items-center">
                 <img
                   src={artist?.imageURL}
-                  className="rounded-full mr-4 sm:mr-12"
+                  className="w-40 h-40 rounded-full mr-4 sm:mr-12"
                 />
                 <div className="flex-1 mt-2 sm:mt-0 flex flex-col">
                   <p className="text-3xl sm:text-5xl">{artist?.name}</p>
-                  {artist && (
-                    <div className="flex flex-col sm:flex-row gap-1 sm:gap-4 mt-4">
-                      <span>{artist?.followers} Followers</span>
-                      <span>{artist?.popularity}% Popularity</span>
-                      <span>{artist?.genre}</span>
-                    </div>
-                  )}
+                  <div className="flex flex-col sm:flex-row gap-1 sm:gap-4 mt-4">
+                    <span>{artist?.followers}</span>
+                    <span>{artist?.popularity}</span>
+                    <span>{artist?.genre}</span>
+                  </div>
                 </div>
               </div>
-              <div className="mt-12">
-                <div className="text-4xl mb-4">
-                  {artist?.topThreeTracks && "TOP TRACKS"}
-                </div>
+              <div className="mt-8">
+                <div className="text-4xl mb-6">{artist && "TOP TRACKS"}</div>
                 <Tracks tracks={artist?.topThreeTracks} />
               </div>
             </div>
@@ -78,4 +73,3 @@ export default function App() {
     </div>
   );
 }
-// <div>{artist?.topThreeTracks?.[0].name}</div>
