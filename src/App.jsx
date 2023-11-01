@@ -41,7 +41,7 @@ export default function App() {
   return (
     <div className="w-screen flex justify-center bg-product-background bg-bottom bg-cover bg-[#696969] bg-blend-multiply">
       <main className="w-[95%] sm:max-w-2xl min-h-screen font-inter flex flex-col justify-center shadow-2xl">
-        <h1 className="font-mono text-white text-3xl m-4">SpotArt</h1>
+        <h1 className="font-mono font-bold text-white text-4xl m-4">SpotArt</h1>
         <Form name={name} setName={setName} handleSubmit={fetchArtist} />
         <Card>
           {showWelcome ? (
