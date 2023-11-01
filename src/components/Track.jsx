@@ -18,7 +18,7 @@ export default function Track({ track, isPlaying, onPlaybackChange }) {
           onPlaybackChange={onPlaybackChange}
         />
       ) : (
-        <a href={track.externalURL} target="_blank">
+        <a href={track.externalURL} target="_blank" className="my-auto">
           <img src={externalLink} />
         </a>
       )}
