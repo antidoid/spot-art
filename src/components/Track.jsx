@@ -1,4 +1,5 @@
 import PlayPauseBtn from "./PlayPauseBtn";
+import externalLink from "../assets/external-link.svg";
 
 export default function Track({ track, isPlaying, onPlaybackChange }) {
   return (
@@ -10,12 +11,16 @@ export default function Track({ track, isPlaying, onPlaybackChange }) {
           {track.albumName} ({track.releaseYear})
         </p>
       </div>
-      {track.previewURL && (
+      {track.previewURL ? (
         <PlayPauseBtn
           previewURL={track.previewURL}
           isPlaying={isPlaying}
           onPlaybackChange={onPlaybackChange}
         />
+      ) : (
+        <a href={track.externalURL} target="_blank">
+          <img src={externalLink} />
+        </a>
       )}
     </div>
   );

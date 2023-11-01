@@ -111,5 +111,6 @@ export async function getArtistTopTracks(id, token) {
       track.album.release_date_precision,
     ),
     previewURL: track.preview_url,
+    externalURL: track.external_urls.spotify,
   }));
 }
