@@ -49,7 +49,7 @@ export default function App() {
             <div className="m-auto">
               <svg
                 aria-hidden="true"
-                class="w-14 h-14 text-gray-200 animate-spin dark:text-gray-600 fill-white"
+                className="w-14 h-14 text-gray-200 animate-spin dark:text-gray-600 fill-white"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +74,13 @@ export default function App() {
                   className="w-40 h-40 rounded-full mr-4 sm:mr-12"
                 />
                 <div className="flex-1 mt-2 sm:mt-0 flex flex-col">
-                  <p className="text-3xl sm:text-5xl">{artist?.name}</p>
+                  <a
+                    href={artist?.profileURL}
+                    className="text-3xl sm:text-5xl hover:underline hover:cursor-pointer"
+                    target="_blank"
+                  >
+                    {artist?.name}
+                  </a>
                   <div className="flex flex-col sm:flex-row gap-1 sm:gap-4 mt-4">
                     <span>{artist?.followers}</span>
                     <span>{artist?.popularity}</span>

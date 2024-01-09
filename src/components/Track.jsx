@@ -6,10 +6,20 @@ export default function Track({ track, isPlaying, onPlaybackChange }) {
     <div className="mb-4 flex">
       <img src={track.albumImageURL} className="rounded-lg w-16 h-16 my-auto" />
       <div className="flex-1 flex flex-col mx-5">
-        <p className="text-2xl">{track.name}</p>
-        <p>
+        <a
+          href={track.externalURL}
+          className="text-2xl hover:underline hover:cursor-pointer"
+          target="_blank"
+        >
+          {track.name}
+        </a>
+        <a
+          href={track.albumExternalURL}
+          className="hover:underline hover:cursor-pointer"
+          target="_blank"
+        >
           {track.albumName} ({track.releaseYear})
-        </p>
+        </a>
       </div>
       {track.previewURL ? (
         <PlayPauseBtn
