@@ -42,10 +42,7 @@ export default function App() {
     // Fetch artist's top tracks
     const topThreeTracks = await getArtistTopTracks(artistId, token);
 
-    setArtist((prevArtist) => ({
-      ...prevArtist,
-      topThreeTracks,
-    }));
+    setArtist({ ...artist, topThreeTracks });
     setIsLoading(false);
   };
 
