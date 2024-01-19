@@ -6,8 +6,9 @@ export async function fetchAuthToken() {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: `grant_type=client_credentials&client_id=${import.meta.env.VITE_CLIENT_ID
-      }&client_secret=${import.meta.env.VITE_CLIENT_SECRET}`,
+    body: `grant_type=client_credentials&client_id=${
+      import.meta.env.VITE_CLIENT_ID
+    }&client_secret=${import.meta.env.VITE_CLIENT_SECRET}`,
   });
   const { access_token: token } = await authRes.json();
   Cookies.set("token", token, { expires: 1 / 24, sameSite: "strict" });
@@ -68,6 +69,8 @@ export async function getArtist(id, token) {
     external_urls: { spotify: profileURL },
   } = await artistRes.json();
 
+  const topThreeTracks = await getArtistTopTracks(id, token);
+
   return {
     id,
     name,
@@ -76,6 +79,7 @@ export async function getArtist(id, token) {
     popularity: `${popularity}% Popularity`,
     imageURL: images[2].url,
     profileURL,
+    topThreeTracks,
   };
 }
 

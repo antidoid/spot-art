@@ -12,8 +12,8 @@ export default function Form({ setArtist, setIsLoading }) {
 
   const fetchArtist = async (e) => {
     e.preventDefault();
-    setArtist(null);
     setIsLoading(true);
+    setArtist(null);
 
     // Fetch the auth token
     const token = Cookies.get("token") || (await fetchAuthToken());
@@ -24,10 +24,7 @@ export default function Form({ setArtist, setIsLoading }) {
     // Fetch the artist's metadata
     const artist = await getArtist(artistId, token);
 
-    // Fetch artist's top tracks
-    const topThreeTracks = await getArtistTopTracks(artistId, token);
-
-    setArtist({ ...artist, topThreeTracks });
+    setArtist(artist);
     setIsLoading(false);
   };
 

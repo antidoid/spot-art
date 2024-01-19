@@ -8,14 +8,14 @@ export default function Track({ track, isPlaying, onPlaybackChange }) {
       <div className="flex-1 flex flex-col mx-5">
         <a
           href={track.externalURL}
-          className="text-2xl hover:underline hover:cursor-pointer"
+          className="text-2xl hover:underline cursor-pointer"
           target="_blank"
         >
           {track.name}
         </a>
         <a
           href={track.albumExternalURL}
-          className="hover:underline hover:cursor-pointer"
+          className="hover:underline cursor-pointer"
           target="_blank"
         >
           {track.albumName} ({track.releaseYear})
