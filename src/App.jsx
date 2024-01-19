@@ -10,6 +10,17 @@ import {
 } from "./utils/spotify";
 
 export default function App() {
+  // FIX:
+  // Move name state down to the Form component as this causes issues when
+  // Trying to change the search artist field and the music is still playing
+  // The card component does not care about the name state, it only cares about
+  // the artist state which is dependent on the name state
+  // One solution is to move both the name and the ability to change the artist
+  // state down to the form coponent so that the Parent / App and inturn the Card
+  // will only re-render when the artist changes
+  // The form component will also require the ability to change the loading state
+  // The whole fetchArtist can also move down to the form component
+
   const [name, setName] = useState("");
   const [artist, setArtist] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +38,6 @@ export default function App() {
 
     // Fetch the artist's metadata
     const artist = await getArtist(artistId, token);
-    setArtist(artist);
 
     // Fetch artist's top tracks
     const topThreeTracks = await getArtistTopTracks(artistId, token);
