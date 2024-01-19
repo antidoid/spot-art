@@ -1,56 +1,16 @@
 import { useState } from "react";
-import Cookies from "js-cookie";
 
 import { Card, Form, Tracks, Welcome } from "./components";
-import {
-  fetchAuthToken,
-  getArtist,
-  getArtistId,
-  getArtistTopTracks,
-} from "./utils/spotify";
 
 export default function App() {
-  // FIX:
-  // Move name state down to the Form component as this causes issues when
-  // Trying to change the search artist field and the music is still playing
-  // The card component does not care about the name state, it only cares about
-  // the artist state which is dependent on the name state
-  // One solution is to move both the name and the ability to change the artist
-  // state down to the form coponent so that the Parent / App and inturn the Card
-  // will only re-render when the artist changes
-  // The form component will also require the ability to change the loading state
-  // The whole fetchArtist can also move down to the form component
-
-  const [name, setName] = useState("");
   const [artist, setArtist] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  const fetchArtist = async (e) => {
-    e.preventDefault();
-    setArtist(null);
-    setIsLoading(true);
-
-    // Fetch the auth token
-    const token = Cookies.get("token") || (await fetchAuthToken());
-
-    // Fetch the artist id
-    const artistId = await getArtistId(name, token);
-
-    // Fetch the artist's metadata
-    const artist = await getArtist(artistId, token);
-
-    // Fetch artist's top tracks
-    const topThreeTracks = await getArtistTopTracks(artistId, token);
-
-    setArtist({ ...artist, topThreeTracks });
-    setIsLoading(false);
-  };
 
   return (
     <div className="w-screen flex justify-center bg-product-background bg-bottom bg-cover bg-[#696969] bg-blend-multiply">
       <main className="w-[95%] sm:max-w-2xl min-h-screen font-inter flex flex-col justify-center shadow-2xl">
         <h1 className="font-mono font-bold text-white text-4xl m-4">SpotArt</h1>
-        <Form name={name} setName={setName} handleSubmit={fetchArtist} />
+        <Form setArtist={setArtist} setIsLoading={setIsLoading} />
         <Card>
           {isLoading ? (
             <div className="m-auto">

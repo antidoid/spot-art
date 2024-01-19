@@ -1,7 +1,39 @@
-export default function Form({ name, setName, handleSubmit }) {
+import { useState } from "react";
+import Cookies from "js-cookie";
+import {
+  fetchAuthToken,
+  getArtist,
+  getArtistId,
+  getArtistTopTracks,
+} from "../utils/spotify";
+
+export default function Form({ setArtist, setIsLoading }) {
+  const [name, setName] = useState("");
+
+  const fetchArtist = async (e) => {
+    e.preventDefault();
+    setArtist(null);
+    setIsLoading(true);
+
+    // Fetch the auth token
+    const token = Cookies.get("token") || (await fetchAuthToken());
+
+    // Fetch the artist id
+    const artistId = await getArtistId(name, token);
+
+    // Fetch the artist's metadata
+    const artist = await getArtist(artistId, token);
+
+    // Fetch artist's top tracks
+    const topThreeTracks = await getArtistTopTracks(artistId, token);
+
+    setArtist({ ...artist, topThreeTracks });
+    setIsLoading(false);
+  };
+
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={fetchArtist}
       className="h-16 w-full backdrop-blur-md bg-white/20 rounded-3xl flex items-center"
     >
       <input
@@ -12,10 +44,7 @@ export default function Form({ name, setName, handleSubmit }) {
         autoFocus
         className="w-3/5 text-xl ml-auto bg-transparent focus:outline-none text-white sm:text-4xl"
       />
-      <button
-        onClick={handleSubmit}
-        className="w-24 h-3/5 mr-4 bg-[#6A6A6A] text-md sm:text-lg uppercase rounded-2xl hover:btn-hover"
-      >
+      <button className="w-24 h-3/5 mr-4 bg-[#6A6A6A] text-md sm:text-lg uppercase rounded-2xl hover:btn-hover">
         Search
       </button>
     </form>
