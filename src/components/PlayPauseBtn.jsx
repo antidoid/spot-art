@@ -37,7 +37,7 @@ export default function PlayPauseBtn({
       audio.pause();
     }
 
-    return () => audio.load();
+    return () => audio.pause();
   }, [isPlaying]);
 
   return (
