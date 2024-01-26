@@ -6,7 +6,7 @@ export default function Artist({ artist }) {
       <div className="flex items-center">
         <img
           src={artist.imageURL}
-          className="w-40 h-40 rounded-full mr-4 sm:mr-12"
+          className="w-28 h-28 sm:w-40 sm:h-40 rounded-full mr-4 sm:mr-12"
         />
         <div className="flex-1 mt-2 sm:mt-0 flex flex-col">
           <a
