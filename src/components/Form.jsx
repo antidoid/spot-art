@@ -1,15 +1,13 @@
-import { useState } from "react";
 import Cookies from "js-cookie";
-import {
-  fetchAuthToken,
-  getArtist,
-  getArtistId,
-  getArtists,
-} from "../utils/spotify";
+import { fetchAuthToken, getArtists } from "../utils/spotify";
 
-export default function Form({ setArtist, setIsLoading, setArtists }) {
-  const [name, setName] = useState("");
-
+export default function Form({
+  name,
+  setName,
+  setArtist,
+  setIsLoading,
+  setArtists,
+}) {
   const fetchArtists = async (e) => {
     e.preventDefault();
     setIsLoading(true);
