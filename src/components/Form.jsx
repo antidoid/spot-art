@@ -1,15 +1,24 @@
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { fetchAuthToken, getArtists } from "../utils/spotify";
 
 export default function Form({
-  name,
-  setName,
+  setShowHome,
   setArtist,
   setIsLoading,
   setArtists,
+  showHome,
 }) {
+  const [name, setName] = useState("");
+
+  // Empties the search box one user clicks the "SpotArt" home button
+  useEffect(() => {
+    if (showHome) setName("");
+  }, [showHome]);
+
   const fetchArtists = async (e) => {
     e.preventDefault();
+    setShowHome(false);
     setIsLoading(true);
     setArtist(null);
 
