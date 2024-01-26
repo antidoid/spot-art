@@ -36,10 +36,23 @@ export default function Form({
         className="w-3/5 text-xl ml-auto bg-transparent focus:outline-none text-white sm:text-4xl"
       />
       <button
-        className="w-24 h-3/5 mr-4 bg-[#6A6A6A] text-md sm:text-lg rounded-2xl hover:btn-hover"
+        className="w-20 sm:w-28 h-full flex justify-center items-center ml-4 bg-[#6A6A6A] text-md sm:text-lg rounded-r-3xl hover:btn-hover"
         disabled={name == ""}
       >
-        Search
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth="1.5"
+          stroke="currentColor"
+          className="w-8 h-8"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+          />
+        </svg>
       </button>
     </form>
   );
