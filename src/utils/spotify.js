@@ -6,9 +6,8 @@ export async function fetchAuthToken() {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: `grant_type=client_credentials&client_id=${
-      import.meta.env.VITE_CLIENT_ID
-    }&client_secret=${import.meta.env.VITE_CLIENT_SECRET}`,
+    body: `grant_type=client_credentials&client_id=${import.meta.env.VITE_CLIENT_ID
+      }&client_secret=${import.meta.env.VITE_CLIENT_SECRET}`,
   });
   const { access_token: token } = await authRes.json();
   Cookies.set("token", token, { expires: 1 / 24, sameSite: "strict" });
@@ -51,6 +50,28 @@ function formatNumber(num, precision = 2) {
   }
 
   return num;
+}
+
+export async function getArtists(name, token) {
+  const searchArtistsUrl = `https://api.spotify.com/v1/search?q=${name}&type=artist&limit=4`;
+  const artistsRes = await fetch(searchArtistsUrl, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const artistsData = await artistsRes.json();
+  const artists = [];
+  for (const artist of artistsData.artists.items) {
+    if (artist.images.length < 2) continue;
+
+    artists.push({
+      id: artist.id,
+      name: artist.name,
+      imageURL: artist.images[2].url,
+    });
+  }
+
+  return artists;
 }
 
 export async function getArtist(id, token) {

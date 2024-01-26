@@ -4,13 +4,13 @@ import {
   fetchAuthToken,
   getArtist,
   getArtistId,
-  getArtistTopTracks,
+  getArtists,
 } from "../utils/spotify";
 
-export default function Form({ setArtist, setIsLoading }) {
+export default function Form({ setArtist, setIsLoading, setArtists }) {
   const [name, setName] = useState("");
 
-  const fetchArtist = async (e) => {
+  const fetchArtists = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setArtist(null);
@@ -18,19 +18,15 @@ export default function Form({ setArtist, setIsLoading }) {
     // Fetch the auth token
     const token = Cookies.get("token") || (await fetchAuthToken());
 
-    // Fetch the artist id
-    const artistId = await getArtistId(name, token);
-
-    // Fetch the artist's metadata
-    const artist = await getArtist(artistId, token);
-
-    setArtist(artist);
+    // Fetch a list of artists with the same name
+    const artists = await getArtists(name, token);
+    setArtists(artists);
     setIsLoading(false);
   };
 
   return (
     <form
-      onSubmit={fetchArtist}
+      onSubmit={fetchArtists}
       className="h-16 w-full backdrop-blur-md bg-white/20 rounded-3xl flex items-center"
     >
       <input
