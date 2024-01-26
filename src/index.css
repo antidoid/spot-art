@@ -11,4 +11,7 @@
       #898989 97.63%
     );
   }
+  .fix-canvas-bug {
+    z-index: 1 !important;
+  }
 }
