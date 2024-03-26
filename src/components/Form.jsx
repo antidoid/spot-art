@@ -45,7 +45,7 @@ export default function Form({
         className="w-3/5 text-xl ml-auto bg-transparent focus:outline-none text-white sm:text-4xl"
       />
       <button
-        className="w-20 sm:w-28 h-full flex justify-center items-center ml-4 bg-[#6A6A6A] text-md sm:text-lg rounded-r-3xl hover:btn-hover"
+        className="w-20 sm:w-28 h-full flex justify-center items-center ml-4 bg-[#6A6A6A] text-md sm:text-lg rounded-r-3xl cursor-pointer hover:btn-hover"
         disabled={name == ""}
       >
         <svg
